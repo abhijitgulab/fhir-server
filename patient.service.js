@@ -52,6 +52,7 @@ module.exports.search = (args, context, logger) => new Promise((resolve, reject)
     let fami = args['family'];
     let gend = args['gender'];
     let birt = args['birthdate'];
+    let email = args['email'];
     // Special parameters to support pagination
     let coun = context.req.query['_count'];
     let page = context.req.query['_page'];
@@ -91,6 +92,12 @@ module.exports.search = (args, context, logger) => new Promise((resolve, reject)
     if (idx) {
         criteria.push({ prsn_id: idx });
     }
+
+    // If email is a parameter
+    if(email) {
+        criteria.push({ PRSN_EMAIL: email});
+    }
+
     // If name is a parameter we need to look in every name part, and do an OR
     if (name) {
         criteria.push({
